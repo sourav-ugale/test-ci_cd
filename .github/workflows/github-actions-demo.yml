@@ -1,6 +1,8 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on:
+  label:
+    types: [created, edited, deleted]
   push:
     branches:
       - main
