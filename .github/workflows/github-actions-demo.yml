@@ -11,7 +11,7 @@ on:
     branches:
       - main
       - 'feature/**'
-      - 'releases/**'
+      #- 'releases/**'
       
 jobs:
   check-bats-version:
