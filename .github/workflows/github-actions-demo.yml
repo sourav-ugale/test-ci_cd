@@ -27,8 +27,9 @@ jobs:
           node-version: '20'
       - run: npm install -g bats
       - run: bats -v
-  Python-Package-Install:
-    build:
+  
+  build:
+    Python-Package-Install:
       runs-on: ubuntu-latest
       strategy:
         matrix:
