@@ -18,37 +18,90 @@ on:
       - 'feature/**'
       - 'releases/**'      
 jobs:
-  check-bats-version:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: check-bats-version    
+        uses: actions/checkout@v4
+      - name: setup npm  
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install -g bats
-      - run: bats -v  
+        run: npm install -g bats
+        run: bats -v
       
-  python-package:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["pypy3.10", "3.9", "3.10"] #, "3.11", "3.12", "3.13"]
-    steps:
-      - uses: actions/checkout@v4
+      - name: python-package
+        strategy:
+          matrix:
+            python-version: ["pypy3.10", "3.9", "3.10"] #, "3.11", "3.12", "3.13"]        
+        uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      # You can test your matrix by printing the current Python version
+          # You can test your matrix by printing the current Python version
       - name: Display Python version
         run: python -c "import sys; print(sys.version)" 
         
-  Set_Date: #Build-${{ steps.set-date.outputs.date }}:
-    runs-on: ubuntu-latest
-    steps:
+
+# name: learn-github-actions
+# run-name: ${{ github.actor }} is learning GitHub Actions
+# on:
+#   # label:
+#   #   types: 
+#   #     - edited
+#   push:
+#     branches:
+#       - main
+#       - 'feature/**'
+#       - 'releases/**'
+#       - 'hotfix/**'
+#       - 'bugfix/**'         
+#   pull_request:
+#     # Sequence of patterns matched against refs/heads
+#     branches:
+#       - main
+#       - 'feature/**'
+#       - 'releases/**'      
+# jobs:
+#   check-bats-version:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+#       - run: npm install -g bats
+#       - run: bats -v  
+      
+#   python-package:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         python-version: ["pypy3.10", "3.9", "3.10"] #, "3.11", "3.12", "3.13"]
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Set up Python ${{ matrix.python-version }}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{ matrix.python-version }}
+#       # You can test your matrix by printing the current Python version
+#       - name: Display Python version
+#         run: python -c "import sys; print(sys.version)" 
+        
+  # Job-in-${{ steps.set-date.outputs.date }}:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set date
+  #       id: set-date
+  #       run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+  
+  #     - name: Show name
+  #       run: echo "Build date is ${{ steps.set-date.outputs.date }}"
+
       - name: Set date
         id: set-date
         run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-  
+    
       - name: Show name
         run: echo "Build date is ${{ steps.set-date.outputs.date }}"
