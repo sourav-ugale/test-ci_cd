@@ -1,23 +1,22 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on:
-  label:
-    types: 
-      - edited
+  # label:
+  #   types: 
+  #     - edited
   push:
     branches:
       - main
       - 'feature/**'
       - 'releases/**'
       - 'hotfix/**'
-      - 'bugfix/**'      
+      - 'bugfix/**'         
   pull_request:
     # Sequence of patterns matched against refs/heads
     branches:
       - main
       - 'feature/**'
-      - 'releases/**'
-      
+      - 'releases/**'      
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
@@ -28,20 +27,19 @@ jobs:
           node-version: '20'
       - run: npm install -g bats
       - run: bats -v
-
-  build:
-
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["pypy3.10", "3.9", "3.10", "3.11", "3.12", "3.13"]
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      # You can test your matrix by printing the current Python version
-      - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
+  Python-Package-Install:
+    build:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          python-version: ["pypy3.10", "3.9", "3.10"] #, "3.11", "3.12", "3.13"]
+  
+      steps:
+        - uses: actions/checkout@v4
+        - name: Set up Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ matrix.python-version }}
+        # You can test your matrix by printing the current Python version
+        - name: Display Python version
+          run: python -c "import sys; print(sys.version)"
