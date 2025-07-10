@@ -27,7 +27,7 @@ jobs:
           node-version: '20'
       - run: npm install -g bats
       - run: bats -v  
-  build:
+  python-package:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -41,3 +41,15 @@ jobs:
       # You can test your matrix by printing the current Python version
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+        
+# name: Build-${{ steps.set-date.outputs.date }}
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Set date
+#         id: set-date
+#         run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+
+#       - name: Show name
+#         run: echo "Build date is ${{ steps.set-date.outputs.date }}"
