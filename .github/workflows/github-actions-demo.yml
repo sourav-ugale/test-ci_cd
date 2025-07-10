@@ -1,5 +1,6 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
+
 on:
   # label:
   #   types: 
@@ -20,28 +21,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.10", "3.9", "3.10", "3.11", "3.12", "3.13"]    
     steps:
-      - name: check-bats-version    
-        uses: actions/checkout@v4
-      - name: setup npm  
+      - name: Use node.js 
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-        run: npm install -g bats
-        run: bats -v
+        run: npm install
       
-      - name: python-package
-        strategy:
-          matrix:
-            python-version: ["pypy3.10", "3.9", "3.10"] #, "3.11", "3.12", "3.13"]        
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          # You can test your matrix by printing the current Python version
+         
+      # You can test your matrix by printing the current Python version
       - name: Display Python version
-        run: python -c "import sys; print(sys.version)" 
+        run: python -c "import sys; print(sys.version)"
+      # install Dependecies of Python 
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip setuptools wheel       
         
 
 # name: learn-github-actions
